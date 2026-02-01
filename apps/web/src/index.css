@@ -1,15 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-50: #eff6ff;
-  --color-brand-100: #dbeafe;
-  --color-brand-500: #3b82f6;
-  --color-brand-600: #2563eb;
-  --color-brand-700: #1d4ed8;
-  --color-brand-900: #1e3a8a;
+  --color-ink-950: #0c1220;
+  --color-ink-900: #121a2b;
+  --color-ink-700: #2f3a4f;
+  --color-ink-500: #5a657c;
+  --color-ink-300: #98a3b9;
+
+  --color-surface: #f6f7fb;
+  --color-surface-2: #edf1f7;
+  --color-surface-3: #ffffff;
+  --color-line: #dbe2ee;
+
+  --color-accent-50: #f2f7ff;
+  --color-accent-100: #e1ebff;
+  --color-accent-200: #c6d8ff;
+  --color-accent-500: #3c78ff;
+  --color-accent-600: #2d66f0;
+  --color-accent-700: #1f4fd1;
+
+  --color-brand-600: #2d66f0;
+  --color-brand-700: #1f4fd1;
+  --color-brand-900: #0f2a66;
+
+  --color-teal-500: #0ea5a4;
+  --color-amber-500: #f59e0b;
+  --color-rose-500: #f43f5e;
   
   --animate-fade-in: fade-in 0.5s ease-out;
   --animate-slide-up: slide-up 0.5s ease-out;
+  --animate-float: float 10s ease-in-out infinite;
 }
 
 @keyframes fade-in {
@@ -22,6 +42,84 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
-body {
-  @apply bg-gray-50 text-gray-900 antialiased;
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+@layer base {
+  :root {
+    --radius-card: 22px;
+    --radius-pill: 999px;
+    --shadow-card: 0 24px 50px -32px rgba(15, 23, 42, 0.35);
+    --shadow-soft: 0 16px 40px -30px rgba(15, 23, 42, 0.25);
+    --shadow-float: 0 30px 60px -40px rgba(15, 23, 42, 0.45);
+    --font-sans: "Manrope", "Segoe UI", sans-serif;
+    --font-display: "Fraunces", "Times New Roman", serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface text-ink-900 antialiased;
+    font-family: var(--font-sans);
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply bg-surface;
+  }
+
+  .section {
+    @apply py-16 sm:py-20;
+  }
+
+  .section-title {
+    @apply text-3xl sm:text-4xl font-semibold text-ink-900;
+    font-family: var(--font-display);
+  }
+
+  .section-subtitle {
+    @apply mt-3 text-base sm:text-lg text-ink-500;
+  }
+
+  .card {
+    @apply bg-surface-3 border border-line rounded-[var(--radius-card)] shadow-[var(--shadow-card)];
+  }
+
+  .card-soft {
+    @apply bg-white/80 border border-white/70 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)];
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold rounded-full bg-accent-50 text-accent-700 border border-accent-100;
+  }
+
+  .tab {
+    @apply px-4 py-2 text-sm font-semibold rounded-full text-ink-500 hover:text-ink-900 transition-colors;
+  }
+
+  .tab-active {
+    @apply bg-surface-3 border border-line text-ink-900 shadow-[var(--shadow-soft)];
+  }
+
+  .input {
+    @apply w-full px-3 py-2 rounded-lg border border-line bg-white/90 text-ink-900 focus:outline-none focus:ring-2 focus:ring-accent-200;
+  }
+
+  .label {
+    @apply block text-sm font-semibold text-ink-700 mb-1;
+  }
+
+  .cta-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-accent-600 text-white font-semibold shadow-[var(--shadow-soft)] hover:bg-accent-700 transition-colors;
+  }
+
+  .cta-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-line text-ink-700 font-semibold hover:border-ink-300 hover:text-ink-900 transition-colors;
+  }
 }

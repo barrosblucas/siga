@@ -29,3 +29,16 @@
 - `framer-motion`
 - `recharts`
 - `clsx`, `tailwind-merge`
+
+## TASK 09 - Redesign Frontend (Tema Claro + Design System)
+
+### Frontend (UI/UX)
+- Criado design system em tema claro com tokens, tipografia e componentes reutilizaveis
+- Atualizado layout global (header, navegação e footer) com nova identidade visual
+- Reformulada Landing Page com novas seções, cards, tabs e hierarquia editorial
+- Ajustado Relatorio DTI para linguagem visual clara e consistente
+- Atualizadas paginas de Iniciativas e Transparencia para o novo sistema
+
+### Testes
+- Adicionado Vitest e Testing Library para testes de UI basicos
+- Criados testes de renderizacao para Layout e Landing Page

@@ -110,6 +110,7 @@ Cada domínio fica em `apps/api/siga/domains/<dominio>/`:
 ### Organização
 - `apps/web/src/domains/<dominio>/...` (feature-first)
 - `apps/web/src/shared/` apenas para infra transversal (api-client, auth, cache, etc.)
+- `apps/web/src/test/` e `apps/web/src/**/__tests__` para testes de UI (Vitest)
 
 ### Padrão por domínio
 - `api.ts` (client daquele domínio)

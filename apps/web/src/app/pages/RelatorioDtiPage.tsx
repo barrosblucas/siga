@@ -55,9 +55,15 @@ const chapters = [
   { id: 'conclusao', title: 'Conclusão Financeira' },
 ];
 
-const ChartComponent = ({ data, title }: { data: any[], title: string }) => (
-  <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mt-6">
-    <h4 className="text-lg font-semibold text-gray-800 mb-4">{title} - Comparativo Anual (R$)</h4>
+type ChartEntry = {
+  name: string;
+  valor: number;
+  type: 'Mercado' | 'DTI';
+};
+
+const ChartComponent = ({ data, title }: { data: ChartEntry[]; title: string }) => (
+  <div className="card p-6 mt-6">
+    <h4 className="text-lg font-semibold text-ink-900 mb-4">{title} - Comparativo Anual (R$)</h4>
     <div className="h-[300px] w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -65,23 +71,23 @@ const ChartComponent = ({ data, title }: { data: any[], title: string }) => (
           <XAxis type="number" tickFormatter={(value) => `R$ ${value/1000}k`} />
           <YAxis dataKey="name" type="category" width={100} tick={{fontSize: 12}} />
           <Tooltip 
-            formatter={(value: any) => [
-              `R$ ${value?.toLocaleString('pt-BR') ?? '0'}`, 
+            formatter={(value: number | string) => [
+              `R$ ${Number(value || 0).toLocaleString('pt-BR')}`,
               'Custo Anual'
             ]}
-            contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+            contentStyle={{ borderRadius: '10px', border: '1px solid #dbe2ee', boxShadow: '0 12px 30px -24px rgba(15, 23, 42, 0.4)' }}
           />
           <Bar dataKey="valor" radius={[0, 4, 4, 0]} barSize={30}>
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.type === 'DTI' ? '#22c55e' : '#ef4444'} />
+              <Cell key={`cell-${index}`} fill={entry.type === 'DTI' ? '#2d66f0' : '#f59e0b'} />
             ))}
           </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>
-    <div className="mt-4 text-sm text-gray-500 flex items-center gap-4 justify-center">
-      <div className="flex items-center gap-2"><div className="w-3 h-3 bg-red-500 rounded-full"></div> Soluções de Mercado</div>
-      <div className="flex items-center gap-2"><div className="w-3 h-3 bg-green-500 rounded-full"></div> Economia DTI</div>
+    <div className="mt-4 text-sm text-ink-500 flex items-center gap-4 justify-center">
+      <div className="flex items-center gap-2"><div className="w-3 h-3 bg-amber-500 rounded-full"></div> Solucoes de Mercado</div>
+      <div className="flex items-center gap-2"><div className="w-3 h-3 bg-accent-600 rounded-full"></div> Economia DTI</div>
     </div>
   </div>
 );
@@ -98,17 +104,16 @@ export function RelatorioDtiPage() {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-20">
-      {/* Header of the Report */}
-      <div className="bg-slate-900 text-white py-16">
+    <div className="page-shell min-h-screen pb-20">
+      <div className="bg-white border-b border-line py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-brand-500/20 text-brand-300 text-sm font-medium mb-4 border border-brand-500/30">
-              Relatório Oficial 2026
-            </div>
-            <h1 className="text-4xl font-bold md:text-5xl">Análise de Gastos de TI</h1>
-            <p className="mt-4 text-xl text-gray-300 max-w-3xl">
-              Balanço de projetos e implementações: Otimização de recursos públicos e soberania tecnológica.
+            <div className="chip mb-4">Relatorio Oficial 2026</div>
+            <h1 className="text-4xl font-semibold md:text-5xl text-ink-900" style={{ fontFamily: 'var(--font-display)' }}>
+              Analise de Gastos de TI
+            </h1>
+            <p className="mt-4 text-lg text-ink-500 max-w-3xl">
+              Balanco de projetos e implementacoes: otimizacao de recursos publicos e soberania tecnologica.
             </p>
           </motion.div>
         </div>
@@ -117,17 +122,17 @@ export function RelatorioDtiPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 flex flex-col lg:flex-row gap-8">
         {/* Sidebar Navigation */}
         <aside className="lg:w-64 flex-shrink-0">
-          <div className="sticky top-24 bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <div className="sticky top-24 card p-4">
             <nav className="space-y-1">
               {chapters.map((chapter) => (
                 <button
                   key={chapter.id}
                   onClick={() => scrollTo(chapter.id)}
                   className={clsx(
-                    'w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors',
+                    'w-full text-left px-3 py-2 rounded-md text-sm font-semibold transition-colors',
                     activeChapter === chapter.id
-                      ? 'bg-brand-50 text-brand-700'
-                      : 'text-gray-600 hover:bg-gray-50'
+                      ? 'bg-accent-50 text-accent-700'
+                      : 'text-ink-500 hover:bg-surface-2'
                   )}
                 >
                   {chapter.title}
@@ -142,8 +147,8 @@ export function RelatorioDtiPage() {
           
           {/* Intro */}
           <section id="intro" className="scroll-mt-24">
-            <div className="prose prose-lg max-w-none text-gray-600">
-              <p className="lead text-xl text-gray-800 font-medium">
+            <div className="prose prose-lg max-w-none text-ink-600">
+              <p className="lead text-xl text-ink-900 font-medium">
                 A diretriz adotada pelo Departamento de TI baseia-se na substituição de controles manuais por sistemas digitais auditáveis desenvolvidos internamente.
               </p>
               <p>
@@ -153,144 +158,144 @@ export function RelatorioDtiPage() {
           </section>
 
           {/* Atendimento */}
-          <section id="atendimento" className="scroll-mt-24 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center text-brand-600">1</div>
+          <section id="atendimento" className="scroll-mt-24 card p-8">
+            <h2 className="text-2xl font-semibold text-ink-900 mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center text-accent-700">1</div>
               Portal de Atendimento
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-ink-500 mb-6">
               Migração para plataforma Ticktez (versão gratuita) para gestão de chamados.
               Anteriormente feito via WhatsApp pessoal, gerando risco de perda de dados.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-green-50 p-4 rounded-lg border border-green-100">
-                <div className="text-green-800 font-semibold mb-1">Economia Mensal</div>
-                <div className="text-2xl font-bold text-green-700">R$ 2.698,20</div>
-                <div className="text-sm text-green-600">em assinaturas evitadas</div>
+              <div className="bg-accent-50 p-4 rounded-lg border border-accent-100">
+                <div className="text-accent-700 font-semibold mb-1">Economia Mensal</div>
+                <div className="text-2xl font-bold text-accent-700">R$ 2.698,20</div>
+                <div className="text-sm text-ink-500">em assinaturas evitadas</div>
               </div>
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                <div className="text-blue-800 font-semibold mb-1">Volumetria</div>
-                <div className="text-2xl font-bold text-blue-700">3.130+</div>
-                <div className="text-sm text-blue-600">atendimentos registrados</div>
+              <div className="bg-surface-2 p-4 rounded-lg border border-line">
+                <div className="text-ink-700 font-semibold mb-1">Volumetria</div>
+                <div className="text-2xl font-bold text-ink-900">3.130+</div>
+                <div className="text-sm text-ink-500">atendimentos registrados</div>
               </div>
             </div>
           </section>
 
           {/* Frotas */}
-          <section id="frotas" className="scroll-mt-24 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center text-brand-600">2</div>
+          <section id="frotas" className="scroll-mt-24 card p-8">
+            <h2 className="text-2xl font-semibold text-ink-900 mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center text-accent-700">2</div>
               Gestão de Frotas
             </h2>
-            <p className="text-gray-600">
+            <p className="text-ink-500">
               Controle de quilometragem, peças e abastecimento. O grande trunfo é o salto tecnológico sem custos fixos, utilizando mão de obra própria.
             </p>
             <ChartComponent data={costComparisons.frotas} title="Custo Anual Estimado" />
           </section>
 
           {/* Processo Seletivo */}
-          <section id="seletivo" className="scroll-mt-24 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center text-brand-600">3</div>
+          <section id="seletivo" className="scroll-mt-24 card p-8">
+            <h2 className="text-2xl font-semibold text-ink-900 mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center text-accent-700">3</div>
               Portal do Processo Seletivo
             </h2>
-            <p className="text-gray-600">
+            <p className="text-ink-500">
               Revitalização integral com foco em segurança (HTTPS) e UX. Elimina contratação de bancas ou ATS caros.
             </p>
             <ChartComponent data={costComparisons.processoSeletivo} title="Custo Anual Estimado" />
           </section>
 
           {/* Matrículas */}
-          <section id="matriculas" className="scroll-mt-24 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center text-brand-600">4</div>
+          <section id="matriculas" className="scroll-mt-24 card p-8">
+            <h2 className="text-2xl font-semibold text-ink-900 mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center text-accent-700">4</div>
               Matrículas Online
             </h2>
-            <p className="text-gray-600">
+            <p className="text-ink-500">
               Fim das filas presenciais. Inclusão urbana e rural num fluxo único digital.
             </p>
              <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <div className="p-3 bg-gray-50 rounded text-center">
-                    <div className="text-2xl font-bold text-gray-900">463</div>
-                    <div className="text-xs text-gray-500">Matrículas</div>
+                <div className="p-3 bg-surface-2 rounded text-center">
+                    <div className="text-2xl font-bold text-ink-900">463</div>
+                    <div className="text-xs text-ink-500">Matrículas</div>
                 </div>
-                <div className="p-3 bg-gray-50 rounded text-center">
-                    <div className="text-2xl font-bold text-gray-900">100%</div>
-                    <div className="text-xs text-gray-500">Online</div>
+                <div className="p-3 bg-surface-2 rounded text-center">
+                    <div className="text-2xl font-bold text-ink-900">100%</div>
+                    <div className="text-xs text-ink-500">Online</div>
                 </div>
              </div>
             <ChartComponent data={costComparisons.matriculas} title="Comparativo com Mercado" />
           </section>
 
            {/* Connect Rural */}
-           <section id="rural" className="scroll-mt-24 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center text-brand-600">5</div>
+           <section id="rural" className="scroll-mt-24 card p-8">
+            <h2 className="text-2xl font-semibold text-ink-900 mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center text-accent-700">5</div>
               Connect Rural
             </h2>
-            <p className="text-gray-600">
+            <p className="text-ink-500">
               App Offline-first para coleta de dados no campo. Georreferenciamento e cadastro de produtores.
             </p>
             <ChartComponent data={costComparisons.connectRural} title="Comparativo com Softwares de Agronegócio" />
           </section>
 
           {/* Social Link */}
-          <section id="social" className="scroll-mt-24 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center text-brand-600">6</div>
+          <section id="social" className="scroll-mt-24 card p-8">
+            <h2 className="text-2xl font-semibold text-ink-900 mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center text-accent-700">6</div>
               Social Link (Habitação)
             </h2>
-            <p className="text-gray-600">
+            <p className="text-ink-500">
               Algoritmo de pontuação para o "Minha Casa Minha Vida". Transparência e justiça social auditável.
             </p>
-            <div className="my-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800">
+            <div className="my-4 p-4 bg-amber-50 border-l-4 border-amber-400 text-amber-800">
                 <strong>Impacto Massivo:</strong> Sistemas similares como "Colab" podem custar até R$ 144.000,00 anuais. O Social Link tem custo zero de licenciamento.
             </div>
             <ChartComponent data={costComparisons.socialLink} title="Economia Potencial Máxima" />
           </section>
 
           {/* Alvará */}
-          <section id="alvara" className="scroll-mt-24 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center text-brand-600">7</div>
+          <section id="alvara" className="scroll-mt-24 card p-8">
+            <h2 className="text-2xl font-semibold text-ink-900 mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center text-accent-700">7</div>
               Alvará Digital
             </h2>
-            <p className="text-gray-600">
+            <p className="text-ink-500">
               Protocolo unificado para obras. Acelera a construção civil e a arrecadação.
             </p>
             <ChartComponent data={costComparisons.alvara} title="Comparativo de Licenciamento" />
           </section>
 
           {/* Internet */}
-          <section id="internet" className="scroll-mt-24 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center text-brand-600">10</div>
+          <section id="internet" className="scroll-mt-24 card p-8">
+            <h2 className="text-2xl font-semibold text-ink-900 mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center text-accent-700">10</div>
               Unificação de Internet (10Gbps)
             </h2>
-            <p className="text-gray-600">
+            <p className="text-ink-500">
               Rede MPLS privada interligando 45 pontos públicos. Fibra óptica dedicada e redundante.
             </p>
             <div className="grid grid-cols-2 gap-4 my-6">
-                <div className="text-center p-4 bg-slate-50 rounded-lg">
-                    <div className="text-3xl font-bold text-brand-600">R$ 1,20</div>
-                    <div className="text-sm text-gray-500">Custo por Mega</div>
+                <div className="text-center p-4 bg-surface-2 rounded-lg">
+                    <div className="text-3xl font-bold text-accent-700">R$ 1,20</div>
+                    <div className="text-sm text-ink-500">Custo por Mega</div>
                 </div>
-                <div className="text-center p-4 bg-slate-50 rounded-lg">
-                    <div className="text-3xl font-bold text-brand-600">10 Gbps</div>
-                    <div className="text-sm text-gray-500">Velocidade</div>
+                <div className="text-center p-4 bg-surface-2 rounded-lg">
+                    <div className="text-3xl font-bold text-accent-700">10 Gbps</div>
+                    <div className="text-sm text-ink-500">Velocidade</div>
                 </div>
             </div>
             <ChartComponent data={costComparisons.internet} title="Comparativo com Mercado (Média)" />
           </section>
 
           {/* Conclusão */}
-          <section id="conclusao" className="scroll-mt-24 bg-gradient-to-br from-brand-900 to-slate-900 text-white p-10 rounded-3xl shadow-2xl relative overflow-hidden">
-             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-16 -mt-16"></div>
+            <section id="conclusao" className="scroll-mt-24 bg-gradient-to-br from-accent-700 to-ink-900 text-white p-10 rounded-3xl shadow-[var(--shadow-float)] relative overflow-hidden">
+             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
              <div className="relative z-10">
                 <h2 className="text-3xl font-bold mb-6">Impacto Total no Orçamento</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                     <div>
-                        <p className="text-brand-100 text-lg mb-6">
+                  <p className="text-accent-100 text-lg mb-6">
                             A estratégia de desenvolvimento interno e otimização de contratos gerou uma economia real superior a <strong>R$ 420.000,00 anuais</strong> aos cofres públicos.
                         </p>
                         <ul className="space-y-3">
@@ -308,10 +313,10 @@ export function RelatorioDtiPage() {
                             </li>
                         </ul>
                     </div>
-                    <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/10 text-center">
-                        <div className="text-sm text-brand-200 uppercase tracking-widest font-semibold mb-2">Economia Gerada (Anual)</div>
+                <div className="bg-white/10 p-6 rounded-2xl backdrop-blur-sm border border-white/10 text-center">
+                  <div className="text-sm text-accent-100 uppercase tracking-widest font-semibold mb-2">Economia Gerada (Anual)</div>
                         <div className="text-5xl font-extrabold text-white mb-2">R$ 424.712</div>
-                        <div className="text-xs text-brand-200">Ref. valores médios de mercado para municípios similares</div>
+                  <div className="text-xs text-accent-100">Ref. valores médios de mercado para municípios similares</div>
                     </div>
                 </div>
              </div>

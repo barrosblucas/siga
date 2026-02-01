@@ -15,23 +15,21 @@ export function Layout() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
+    <div className="min-h-screen flex flex-col page-shell">
+      <header className="bg-white/85 backdrop-blur-md sticky top-0 z-50 border-b border-line">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            {/* Logo */}
-            <div className="flex-shrink-0 flex items-center gap-2">
-              <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">S</span>
+            <div className="flex-shrink-0 flex items-center gap-3">
+              <div className="w-9 h-9 rounded-2xl bg-accent-600 text-white font-semibold flex items-center justify-center shadow-[var(--shadow-soft)]">
+                S
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900 leading-tight">SIGA</h1>
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">Bandeirantes</p>
+              <div className="leading-tight">
+                <h1 className="text-lg font-semibold text-ink-900" style={{ fontFamily: 'var(--font-display)' }}>SIGA</h1>
+                <p className="text-[10px] text-ink-500 uppercase tracking-widest font-semibold">Bandeirantes</p>
               </div>
             </div>
 
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden md:flex items-center gap-2 rounded-full border border-line bg-white/80 px-2 py-1 shadow-[var(--shadow-soft)]">
               {navigation.map((item) => {
                 const isActive = location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href));
                 return (
@@ -39,24 +37,23 @@ export function Layout() {
                     key={item.name}
                     to={item.href}
                     className={clsx(
-                      'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200',
+                      'inline-flex items-center gap-2 px-3 py-2 rounded-full text-sm font-semibold transition-colors',
                       isActive
-                        ? 'border-brand-600 text-brand-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        ? 'bg-accent-50 text-accent-700'
+                        : 'text-ink-500 hover:text-ink-900'
                     )}
                   >
-                    <item.icon className="w-4 h-4 mr-2" />
+                    <item.icon className="w-4 h-4" />
                     {item.name}
                   </Link>
                 );
               })}
             </nav>
 
-            {/* Mobile Menu Button */}
             <div className="flex items-center md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500"
+                className="inline-flex items-center justify-center p-2 rounded-full text-ink-500 hover:text-ink-900 hover:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-accent-200"
               >
                 <span className="sr-only">Open main menu</span>
                 {isMenuOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
@@ -65,28 +62,27 @@ export function Layout() {
           </div>
         </div>
 
-        {/* Mobile Nav */}
         {isMenuOpen && (
           <div className="md:hidden">
-            <div className="pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={clsx(
-                    'block pl-3 pr-4 py-2 border-l-4 text-base font-medium',
-                    location.pathname === item.href
-                      ? 'bg-brand-50 border-brand-500 text-brand-700'
-                      : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
-                  )}
-                >
-                  <div className="flex items-center">
-                    <item.icon className="w-5 h-5 mr-3" />
+            <div className="px-4 pb-4">
+              <div className="card-soft p-3 space-y-1">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={clsx(
+                      'flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold',
+                      location.pathname === item.href
+                        ? 'bg-accent-50 text-accent-700'
+                        : 'text-ink-500 hover:text-ink-900'
+                    )}
+                  >
+                    <item.icon className="w-5 h-5" />
                     {item.name}
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -96,28 +92,21 @@ export function Layout() {
         <Outlet />
       </main>
 
-      <footer className="bg-white border-t border-gray-200">
+      <footer className="bg-white border-t border-line">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-          <div className="md:flex md:items-center md:justify-between">
-            <div className="flex justify-center md:justify-start">
-              <div className="flex items-center gap-2">
-                <div className="w-6 h-6 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs font-bold">
-                  S
-                </div>
-                <p className="text-gray-500 text-sm">
-                  &copy; 2026 Prefeitura Municipal de Bandeirantes. Todos os direitos reservados.
-                </p>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-surface-2 rounded-xl flex items-center justify-center text-ink-500 text-xs font-semibold">
+                S
               </div>
+              <p className="text-ink-500 text-sm">
+                &copy; 2026 Prefeitura Municipal de Bandeirantes. Todos os direitos reservados.
+              </p>
             </div>
-            <div className="mt-8 md:mt-0 flex justify-center space-x-6">
-              <a href="#" className="text-gray-400 hover:text-gray-500">
-                <span className="sr-only">Facebook</span>
-                {/* Icon placeholder */}
-              </a>
-              <a href="#" className="text-gray-400 hover:text-gray-500">
-                <span className="sr-only">Instagram</span>
-                {/* Icon placeholder */}
-              </a>
+            <div className="flex items-center gap-4 text-sm text-ink-500">
+              <span>Ouvidoria</span>
+              <span>Legislação</span>
+              <span>Contato</span>
             </div>
           </div>
         </div>
