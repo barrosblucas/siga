@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import api from '@/shared/api/client'
 import { z } from 'zod'
 import {
@@ -17,8 +17,8 @@ export const useDespesas = (params?: {
   categoria?: string
   limit?: number
   offset?: number
-}, options?: UseQueryOptions) => {
-  return useQuery({
+}, options?: any) => {
+  return useQuery<z.infer<typeof DespesasResponseSchema>>({
     queryKey: ['transparencia', 'despesas', params],
     queryFn: async () => {
       const { data } = await api.get('/transparencia/despesas', { params })
@@ -34,8 +34,8 @@ export const useReceitas = (params?: {
   fonte?: string
   limit?: number
   offset?: number
-}, options?: UseQueryOptions) => {
-  return useQuery({
+}, options?: any) => {
+  return useQuery<z.infer<typeof ReceitasResponseSchema>>({
     queryKey: ['transparencia', 'receitas', params],
     queryFn: async () => {
       const { data } = await api.get('/transparencia/receitas', { params })
@@ -50,8 +50,8 @@ export const useContratos = (params?: {
   fornecedor?: string
   limit?: number
   offset?: number
-}, options?: UseQueryOptions) => {
-  return useQuery({
+}, options?: any) => {
+  return useQuery<z.infer<typeof ContratosResponseSchema>>({
     queryKey: ['transparencia', 'contratos', params],
     queryFn: async () => {
       const { data } = await api.get('/transparencia/contratos', { params })

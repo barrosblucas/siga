@@ -1,10 +1,9 @@
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 from datetime import datetime
+
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from siga.db.models import Iniciativa, Meta
 from siga.logging.logger import get_logger
-
 
 logger = get_logger(__name__)
 
@@ -18,10 +17,10 @@ async def create_iniciativa(session: AsyncSession, data) -> Iniciativa:
         data_fim_prevista=datetime.fromisoformat(data.data_fim_prevista).date() if data.data_fim_prevista else None,
         progresso=data.progresso,
     )
-    
+
     session.add(iniciativa)
     await session.flush()
-    
+
     return iniciativa
 
 
@@ -36,8 +35,8 @@ async def create_meta(session: AsyncSession, iniciativa_id: str, data) -> Meta:
         prazo=datetime.fromisoformat(data.prazo).date() if data.prazo else None,
         status=data.status,
     )
-    
+
     session.add(meta)
     await session.flush()
-    
+
     return meta

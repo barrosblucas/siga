@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from siga.domains.transparencia.controller import router as transparencia_router
-from siga.domains.iniciativas.controller import router as iniciativas_router
-from siga.logging.logger import configure_logging, get_logger
 from siga.config import get_settings
-
+from siga.domains.iniciativas.controller import router as iniciativas_router
+from siga.domains.transparencia.controller import router as transparencia_router
+from siga.logging.logger import configure_logging, get_logger
 
 settings = get_settings()
 configure_logging(settings.log_level)

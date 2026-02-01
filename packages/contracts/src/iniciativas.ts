@@ -8,6 +8,7 @@ export const IniciativaSchema = z.object({
   data_inicio: z.coerce.date().optional(),
   data_fim_prevista: z.coerce.date().optional(),
   progresso: z.number().int().min(0).max(100).default(0),
+  metas: z.array(z.lazy(() => MetaSchema)).optional(),
 });
 
 export const MetaSchema = z.object({

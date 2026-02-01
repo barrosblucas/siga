@@ -1,7 +1,6 @@
-apps/web/node_modules
+node_modules/
+dist/
 apps/web/dist
-packages/contracts/node_modules
-packages/contracts/dist
 apps/api/__pycache__
 apps/api/.venv
 apps/api/.mypy_cache

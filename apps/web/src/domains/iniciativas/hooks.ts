@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient, UseQueryOptions } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import api from '@/shared/api/client'
 import { z } from 'zod'
 import {
@@ -17,8 +17,8 @@ export const useIniciativas = (params?: {
   status?: string
   limit?: number
   offset?: number
-}, options?: UseQueryOptions) => {
-  return useQuery({
+}, options?: any) => {
+  return useQuery<z.infer<typeof IniciativasResponseSchema>>({
     queryKey: ['iniciativas', params],
     queryFn: async () => {
       const { data } = await api.get('/iniciativas', { params })
@@ -28,8 +28,8 @@ export const useIniciativas = (params?: {
   })
 }
 
-export const useIniciativa = (id: string, options?: UseQueryOptions) => {
-  return useQuery({
+export const useIniciativa = (id: string, options?: any) => {
+  return useQuery<z.infer<typeof IniciativaResponseSchema>>({
     queryKey: ['iniciativas', id],
     queryFn: async () => {
       const { data } = await api.get(`/iniciativas/${id}`)
@@ -56,8 +56,8 @@ export const useCreateIniciativa = () => {
 
 export const useMetas = (iniciativaId: string, params?: {
   status?: string
-}, options?: UseQueryOptions) => {
-  return useQuery({
+}, options?: any) => {
+  return useQuery<z.infer<typeof MetasResponseSchema>>({
     queryKey: ['iniciativas', iniciativaId, 'metas', params],
     queryFn: async () => {
       const { data } = await api.get(`/iniciativas/${iniciativaId}/metas`, { params })

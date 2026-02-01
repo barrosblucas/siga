@@ -75,7 +75,7 @@ export function IniciativaDetail({ iniciativa, loading }: IniciativaDetailProps)
           <div className="p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Metas</h3>
             <div className="space-y-4">
-              {iniciativa.metas.map((meta) => (
+              {iniciativa.metas.map((meta: any) => (
                 <div key={meta.id} className="border border-gray-200 rounded-lg p-4">
                   <div className="flex justify-between items-start mb-2">
                     <h4 className="font-medium text-gray-900">{meta.titulo}</h4>

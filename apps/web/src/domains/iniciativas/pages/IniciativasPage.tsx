@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useIniciativas, useIniciativa } from '../hooks'
 import { IniciativasList } from '../components/IniciativasList'
 import { IniciativaDetail } from '../components/IniciativaDetail'
-import { useIniciativaSchema, IniciativaSchema } from '@siga/contracts'
 
 export function IniciativasPage() {
   const [selectedId, setSelectedId] = useState<string>()

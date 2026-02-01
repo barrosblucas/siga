@@ -1,11 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
+from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, and_
 
-from siga.db.models import TransparenciaDespesa, TransparenciaReceita, TransparenciaContrato
 from siga.db import get_session
+from siga.db.models import TransparenciaContrato, TransparenciaDespesa, TransparenciaReceita
 from siga.logging.logger import get_logger
-
 
 logger = get_logger(__name__)
 router = APIRouter(prefix="/api/transparencia", tags=["transparencia"])
@@ -26,18 +25,18 @@ async def get_despesas(
     if mes:
         conditions.append(TransparenciaDespesa.mes == mes)
     if categoria:
-        conditions.append(TransparenciaDespesa.ilike(f"%{categoria}%"))
+        conditions.append(TransparenciaDespesa.categoria.ilike(f"%{categoria}%"))  # type: ignore
 
     query = select(TransparenciaDespesa)
     if conditions:
         query = query.where(and_(*conditions))
-    
+
     query = query.limit(limit).offset(offset)
     result = await session.execute(query)
     despesas = result.scalars().all()
 
     logger.info("listagem_despesas", count=len(despesas), ano=ano, mes=mes)
-    
+
     return [
         {
             "id": d.id,
@@ -68,18 +67,18 @@ async def get_receitas(
     if mes:
         conditions.append(TransparenciaReceita.mes == mes)
     if fonte:
-        conditions.append(TransparenciaReceita.fonte.ilike(f"%{fonte}%"))
+        conditions.append(TransparenciaReceita.fonte.ilike(f"%{fonte}%"))  # type: ignore
 
     query = select(TransparenciaReceita)
     if conditions:
         query = query.where(and_(*conditions))
-    
+
     query = query.limit(limit).offset(offset)
     result = await session.execute(query)
     receitas = result.scalars().all()
 
     logger.info("listagem_receitas", count=len(receitas), ano=ano, mes=mes)
-    
+
     return [
         {
             "id": r.id,
@@ -106,18 +105,18 @@ async def get_contratos(
     if status:
         conditions.append(TransparenciaContrato.status == status)
     if fornecedor:
-        conditions.append(TransparenciaContrato.fornecedor.ilike(f"%{fornecedor}%"))
+        conditions.append(TransparenciaContrato.fornecedor.ilike(f"%{fornecedor}%"))  # type: ignore
 
     query = select(TransparenciaContrato)
     if conditions:
         query = query.where(and_(*conditions))
-    
+
     query = query.limit(limit).offset(offset)
     result = await session.execute(query)
     contratos = result.scalars().all()
 
     logger.info("listagem_contratos", count=len(contratos), status=status)
-    
+
     return [
         {
             "id": c.id,
