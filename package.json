@@ -1,0 +1,22 @@
+{
+  "name": "siga-bandeirantes",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "web:dev": "cd apps/web && pnpm dev",
+    "web:build": "cd apps/web && pnpm build",
+    "web:lint": "cd apps/web && pnpm lint",
+    "web:typecheck": "cd apps/web && pnpm typecheck",
+    "web:test": "cd apps/web && pnpm test",
+    "contracts:build": "cd packages/contracts && pnpm build",
+    "contracts:typecheck": "cd packages/contracts && pnpm typecheck",
+    "lint": "pnpm -r --filter './apps/*' --filter './packages/*' run lint",
+    "typecheck": "pnpm -r --filter './apps/*' --filter './packages/*' run typecheck",
+    "test": "pnpm -r --filter './apps/*' --filter './packages/*' run test",
+    "build": "pnpm -r --filter './apps/*' --filter './packages/*' run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

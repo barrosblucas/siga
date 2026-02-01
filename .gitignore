@@ -1,0 +1,17 @@
+apps/web/node_modules
+apps/web/dist
+packages/contracts/node_modules
+packages/contracts/dist
+apps/api/__pycache__
+apps/api/.venv
+apps/api/.mypy_cache
+apps/api/.pytest_cache
+apps/api/htmlcov
+apps/api/.coverage
+apps/api/alembic/versions/*.py
+!apps/api/alembic/versions/.gitkeep
+apps/api/.env
+*.log
+.DS_Store
+.vscode
+.idea
